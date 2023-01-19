@@ -1,6 +1,25 @@
 @extends('admins.layouts.main')
 
 @section('container')
+
+
+    @if (session()->has('success'))
+    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"">
+        Data Berhasil di Tambah
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @elseif(session()->has('pesan_edit'))
+    <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert"">
+        Data Berhasil di Edit
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @elseif(session()->has('pesan_hapus'))
+    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert"">
+        Data Berhasil di Hapus
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
+
     <div class="pagetitle">
         <h1>Barang</h1>
         <nav>
@@ -20,10 +39,12 @@
 
                     <!-- Recent Sales -->
                     <div class="col-12">
+
+                        {{-- <button type="button" class="btn btn-primary btn-sm mb-4" data-bs-toggle="modal" data-bs-target="#basicModal">
+                            +Tambah Barang
+                          </button> --}}
                         <a href="/barang/create" type="button" class="btn btn-primary btn-sm mb-4">+Tambah Barang</a>
                         <div class="card recent-sales overflow-auto">
-
-
                             <div class="filter">
                                 <a class="icon" href="#" data-bs-toggle="dropdown"><i
                                         class="bi bi-three-dots"></i></a>
@@ -62,7 +83,7 @@
                                                 <td>{{ $barang->harga_brg }}</td>
                                                 <td>{{ $barang->stok_brg }}</td>
                                                 <td>@if ($barang->foto_brg)
-                                                        <img style="max-width:50px; max-height:50px" src="{{ url('images').'/'.$barang->foto_brg }}">
+                                                        <img style="max-width:80px; max-height:50px" src="{{ url('images').'/'.$barang->foto_brg }}">
                                                     @endif 
                                                 </td>
                                                 <td>
@@ -121,8 +142,8 @@
             </div>
             <!-- END Details Modal-->
 
-{{-- 
-            <!-- Tambah Barang Modal -->
+
+            {{-- <!-- Tambah Barang Modal -->
             <div class="modal fade" id="basicModal" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -131,7 +152,7 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action ="/barang" method="post">
+                            <form action ="/barang" method="post" enctype="multipart/form-data">
                                 @csrf
                                     <div class="mb-1">
                                         <label for="kode_brg" class="form-label">Kode Barang</label>

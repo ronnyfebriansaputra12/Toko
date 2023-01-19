@@ -91,7 +91,7 @@ class BarangController extends Controller
      */
     public function edit(Barang $barang)
     {
-        //
+        return view('admins.barang.edit', compact('barang'));
     }
 
     /**

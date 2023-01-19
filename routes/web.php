@@ -22,9 +22,9 @@ Route::get('/dashboard', function () {
     return view('admins.dashboard');
 });
 
-// Route::get('/barang', function () {
-//     return view('admins.barang.index');
-// });
+Route::get('/office', function () {
+    return view('admins.barang.create');
+});
 
 Route::resource('barang', BarangController::class);
-// Route::post('/barang-tambah','App\Http\Controllers\BarangController@store');
+Route::post('/barang-tambah','App\Http\Controllers\BarangController@store');
