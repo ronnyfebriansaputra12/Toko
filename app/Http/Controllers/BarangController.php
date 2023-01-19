@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class BarangController extends Controller
 {
@@ -90,8 +91,9 @@ class BarangController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Barang $barang)
-    {
-        return view('admins.barang.edit', compact('barang'));
+    {   
+        $data = Barang::where('id', $barang->id)->first();
+        return view('admins.barang.edit')->with('data', $data);
     }
 
     /**
@@ -103,7 +105,47 @@ class BarangController extends Controller
      */
     public function update(Request $request, Barang $barang)
     {
-        //
+        $request->validate([
+            'kode_brg' => 'required',
+            'nama_brg' => 'required',
+            'harga_brg' => 'required|numeric',
+            'stok_brg' => 'required|numeric',
+            'foto_brg' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ], [
+
+            'kode_brg.required' => 'Kode Barang Harus Diisi',
+            'nama_brg.required' => 'Nama Barang Harus Diisi',
+            'harga_brg.required' => 'Harga Barang Harus Diisi',
+            'stok_brg.required' => 'Stok Barang Harus Diisi',
+            'foto_brg.required' => 'Foto Barang Harus Diisi',
+            'harga_brg.numeric' => 'Harga Barang Harus Angka',
+            'stok_brg.numeric' => 'Stok Barang Harus Angka',
+            'foto_brg.image' => 'Foto Barang Harus Gambar',
+            'foto_brg.mimes' => 'Foto Barang Harus Berformat jpeg,png,jpg,gif,svg',
+        ]);
+
+        $data = [
+            'kode_brg' => $request->kode_brg,
+            'nama_brg' => $request->nama_brg,
+            'harga_brg' => $request->harga_brg,
+            'stok_brg' => $request->stok_brg,
+            // 'foto_brg' => $nama_foto
+        ];
+
+        if ($request->hasFile('foto_brg')) {
+            $foto_file = $request->file('foto_brg');
+            $foto_ekstensi = $foto_file->getClientOriginalExtension();
+            $nama_foto = time() . '.' . $foto_ekstensi;
+            $foto_file->move(public_path('images'), $nama_foto);
+            $data_foto = Barang::where('id', $barang->id)->first();
+            File::delete(public_path('images/' . $data_foto->foto_brg));
+        }
+
+        $data['foto_brg'] = $nama_foto;
+
+
+        Barang::where('id', $barang->id)->update($data);
+        return redirect()->route('barang.index')->with('pesan_edit', 'Data Barang Berhasil Diubah');
     }
 
     /**
@@ -114,6 +156,9 @@ class BarangController extends Controller
      */
     public function destroy(Barang $barang)
     {
-        //
+        $data = Barang::where('id', $barang->id)->first();
+        File::delete(public_path('images/' . $data->foto_brg));
+        Barang::where('id', $barang->id)->delete();
+        return redirect()->route('barang.index')->with('pesan_hapus', 'Data Barang Berhasil Dihapus');
     }
 }

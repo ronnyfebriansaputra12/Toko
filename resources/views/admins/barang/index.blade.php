@@ -1,23 +1,21 @@
 @extends('admins.layouts.main')
 
 @section('container')
-
-
     @if (session()->has('success'))
-    <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"">
-        Data Berhasil di Tambah
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="alert alert-success alert-dismissible fade show mt-2" role="alert"">
+            Data Berhasil di Tambah
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @elseif(session()->has('pesan_edit'))
-    <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert"">
-        Data Berhasil di Edit
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="alert alert-primary alert-dismissible fade show mt-2" role="alert"">
+            Data Berhasil di Edit
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @elseif(session()->has('pesan_hapus'))
-    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert"">
-        Data Berhasil di Hapus
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+        <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert"">
+            Data Berhasil di Hapus
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
 
     <div class="pagetitle">
@@ -82,9 +80,14 @@
                                                 <td>{{ $barang->nama_brg }}</td>
                                                 <td>{{ $barang->harga_brg }}</td>
                                                 <td>{{ $barang->stok_brg }}</td>
-                                                <td>@if ($barang->foto_brg)
-                                                        <img style="max-width:80px; max-height:50px" src="{{ url('images').'/'.$barang->foto_brg }}">
-                                                    @endif 
+                                                <td>
+                                                    @if ($barang->foto_brg)
+                                                        {{-- <img id="myImg" style="max-width:80px; max-height:50px"
+                                                            src="{{ url('images') . '/' . $barang->foto_brg }}"> --}}
+                                                        <img id="myImg"
+                                                            src="{{ url('images') . '/' . $barang->foto_brg }}"
+                                                            alt="{{ $barang->nama_brg }}" style="max-width:80px">
+                                                    @endif
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-link" data-bs-toggle="modal"
@@ -96,6 +99,13 @@
                                                             class="badge bg-warning text-dark"><i
                                                                 class="bi bi-pen-circle"></i> Edit</span></a>
 
+                                                    <form onsubmit="return confirm('Yakin Akan Menghapus Data ??')" class="d-inline" action="{{ '/barang/'.$barang->id }}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-link"><span
+                                                                class="badge bg-danger text-dark"><i
+                                                                    class="bi bi-trash"></i> Hapus</span></button>
+                                                    </form>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -113,7 +123,7 @@
 
 
 
-            <!-- Details Modal-->
+            {{-- <!-- Details Modal-->
             <div class="modal fade" id="verticalycentered" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
@@ -139,7 +149,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
+
             <!-- END Details Modal-->
 
 
@@ -219,4 +230,13 @@
 
         </div>
     </section>
+
+    <!-- The Modal -->
+    <div id="modal_img" class="modal-image">
+        <span class="close">&times;</span>
+        <img class="modal-content-image" id="img01">
+        <div id="caption"></div>
+    </div>
+
+    <script></script>
 @endsection

@@ -23,6 +23,7 @@
 
   <!-- Template Main JS File -->
   <script src="NiceAdmin/assets/js/main.js"></script>
+  <script src="{{ 'js/jsModal.js' }}"></script>
 
 </body>
 
