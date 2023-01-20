@@ -28,3 +28,9 @@ Route::get('/office', function () {
 
 Route::resource('barang', BarangController::class);
 Route::post('/barang-tambah','App\Http\Controllers\BarangController@store');
+
+Route::get('/login','App\Http\Controllers\AuthenticationController@index');
+Route::post('/login/proses','App\Http\Controllers\AuthenticationController@login');
+Route::get('/register','App\Http\Controllers\AuthenticationController@pageRegister');
+Route::post('/register/proses','App\Http\Controllers\AuthenticationController@register');
+Route::get('/logout','App\Http\Controllers\AuthenticationController@logout');

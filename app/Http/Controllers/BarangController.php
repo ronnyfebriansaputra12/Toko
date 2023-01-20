@@ -25,8 +25,9 @@ class BarangController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        return view('admins.barang.create');
+    {   
+        $title = 'Barang';
+        return view('admins.barang.create')->with('title', $title);
     }
 
     /**
@@ -69,8 +70,10 @@ class BarangController extends Controller
             'foto_brg' => $nama_foto    
         ];
 
+        $title = 'Tambah Barang';
+
         Barang::create($data);
-        return redirect()->route('barang.index')->with('success', 'Data Barang Berhasil Ditambahkan');
+        return redirect()->route('barang.index')->with('success', 'Data Barang Berhasil Ditambahkan', compact('title'));
     }
 
     /**
@@ -142,10 +145,11 @@ class BarangController extends Controller
         }
 
         $data['foto_brg'] = $nama_foto;
+        $title = 'Edit Barang';
 
 
         Barang::where('id', $barang->id)->update($data);
-        return redirect()->route('barang.index')->with('pesan_edit', 'Data Barang Berhasil Diubah');
+        return redirect()->route('barang.index')->with('pesan_edit', 'Data Barang Berhasil Diubah', compact('title'));
     }
 
     /**
