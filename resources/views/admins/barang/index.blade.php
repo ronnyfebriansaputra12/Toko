@@ -82,27 +82,27 @@
                                                 <td>{{ $barang->stok_brg }}</td>
                                                 <td>
                                                     @if ($barang->foto_brg)
-                                                        {{-- <img id="myImg" style="max-width:80px; max-height:50px"
-                                                            src="{{ url('images') . '/' . $barang->foto_brg }}"> --}}
                                                         <img id="myImg"
                                                             src="{{ url('images') . '/' . $barang->foto_brg }}"
                                                             alt="{{ $barang->nama_brg }}" style="max-width:80px">
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <button class="btn btn-link" data-bs-toggle="modal"
-                                                        data-bs-target="#verticalycentered"><span
-                                                            class="badge bg-info text-dark"><i
-                                                                class="bi bi-info-circle"></i> Detail</span></button>
 
-                                                    <a href="{{ url('/barang/' . $barang->id . '/edit/') }}"><span
+                                                    <a href="{{ url('/barang/' . $barang->id) }}" class="btn btn-link"><span
+                                                        class="badge bg-info text-dark"><i
+                                                        class="bi bi-info-circle"></i> Detail</span></a>
+
+                                                        <a href="{{ url('/barang/' . $barang->id . '/edit/') }}" class="btn btn-link"><span
                                                             class="badge bg-warning text-dark"><i
-                                                                class="bi bi-pen-circle"></i> Edit</span></a>
+                                                            class="bi bi-info-circle"></i> Edit</span></a>
 
-                                                    <form onsubmit="return confirm('Yakin Akan Menghapus Data ??')" class="d-inline" action="{{ '/barang/'.$barang->id }}" method="POST">
+                                                    <form
+                                                        action="{{ '/barang/' . $barang->id }}"
+                                                        method="POST">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-link"><span
+                                                        <button type="submit" id="#delete" class="btn btn-link"><span
                                                                 class="badge bg-danger text-dark"><i
                                                                     class="bi bi-trash"></i> Hapus</span></button>
                                                     </form>
@@ -238,5 +238,4 @@
         <div id="caption"></div>
     </div>
 
-    <script></script>
 @endsection

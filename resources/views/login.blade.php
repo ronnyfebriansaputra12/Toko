@@ -34,15 +34,25 @@
 
 <body>
 
+
+
     <main>
         <div class="container">
+
+            @include('sweetalert::alert')
+
 
             <section
                 class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
                 <div class="container">
                     <div class="row justify-content-center">
                         <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-
+                            @if (session()->has('notLogin'))
+                            <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert"">
+                                Anda Harus Login Terlebih Dahulu
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                            @endif
                             <div class="d-flex justify-content-center py-4">
                                 <a href="index.html" class="logo d-flex align-items-center w-auto">
                                     <img src="NiceAdmin/assets/img/logo.png" alt="">

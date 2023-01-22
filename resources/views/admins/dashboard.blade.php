@@ -1,6 +1,12 @@
 @extends('admins.layouts.main')
 
 @section('container')
+    @if (session()->has('messageLogin'))
+    <div class="alert alert-danger alert-dismissible fade show mt-2" role="alert"">
+        {{ session('messageLogin') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    @endif
         <div class="pagetitle">
             <h1>Dashboard</h1>
             <nav>

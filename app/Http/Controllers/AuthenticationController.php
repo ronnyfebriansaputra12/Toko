@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class AuthenticationController extends Controller
 {
@@ -18,7 +19,10 @@ class AuthenticationController extends Controller
     public function index(Request $request)
     {
         Session::flash('email', $request->email);
+
         $data = User::all();
+
+        
         return view('login')->with('data', $data);
     }
 
@@ -39,11 +43,12 @@ class AuthenticationController extends Controller
             'password.required' => 'Password Harus Diisi',
             'password.min' => 'Password Minimal 8 Karakter'
         ]);
+        
 
         $cek = $request->only('email', 'password');
         if (Auth::attempt($cek)) {
             $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+            return redirect('/dashboard')->with('success', 'Login Berhasil');
         }
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',

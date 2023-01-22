@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class BarangController extends Controller
 {
@@ -16,6 +17,11 @@ class BarangController extends Controller
     public function index()
     {
         $barangs = Barang::orderBy('id', 'asc')->paginate(10);
+
+        if(session('success_message')){
+            Alert::toast( session('success_message'),'success');
+        }
+
         return view('admins.barang.index')->with('barangs', $barangs);
     }
 
@@ -73,7 +79,7 @@ class BarangController extends Controller
         $title = 'Tambah Barang';
 
         Barang::create($data);
-        return redirect()->route('barang.index')->with('success', 'Data Barang Berhasil Ditambahkan', compact('title'));
+        return redirect()->route('barang.index')->withSuccessMessage('Data Barang Berhasil Ditambahkan', compact('title'));
     }
 
     /**
@@ -84,7 +90,9 @@ class BarangController extends Controller
      */
     public function show(Barang $barang)
     {
-        //
+        $barang = Barang::find($barang->id);
+        $breadcrum = 'Details Barang';
+        return view('admins.barang.details')->with('barang', $barang,compact('breadcrum'));
     }
 
     /**
@@ -149,7 +157,7 @@ class BarangController extends Controller
 
 
         Barang::where('id', $barang->id)->update($data);
-        return redirect()->route('barang.index')->with('pesan_edit', 'Data Barang Berhasil Diubah', compact('title'));
+        return redirect()->route('barang.index')->withSuccessMessage('Data Barang Berhasil Diubah', compact('title'));
     }
 
     /**
@@ -163,6 +171,6 @@ class BarangController extends Controller
         $data = Barang::where('id', $barang->id)->first();
         File::delete(public_path('images/' . $data->foto_brg));
         Barang::where('id', $barang->id)->delete();
-        return redirect()->route('barang.index')->with('pesan_hapus', 'Data Barang Berhasil Dihapus');
+        return redirect()->route('barang.index')->withSuccessMessage('Data Barang Berhasil Dihapus');
     }
 }
